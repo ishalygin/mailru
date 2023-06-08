@@ -8,13 +8,13 @@ import ru.mail.helpers.TestRunData;
 /**
  * Класс тестов
  */
-public class EmailSendTest extends WebDriverSetup {
+class EmailSendTest extends WebDriverSetup {
 
     @ParameterizedTest(name = "[{arguments}]")
     @DisplayName("Отправка письма через mail.ru")
     @ArgumentsSource(TestRunData.SendLetterTestData.class)
     public void sendLetterTest(TestRunData.SendLetterTestData testData) {
-        new Steps(driver)
+        new Steps()
                 .openMailRu()
                 .logInSystem(testData.login, testData.password)
                 .sendLetter(testData.email, testData.text);

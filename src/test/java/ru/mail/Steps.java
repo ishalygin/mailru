@@ -1,7 +1,6 @@
 package ru.mail;
 
 import io.qameta.allure.Step;
-import org.openqa.selenium.WebDriver;
 import ru.mail.pages.InboxPage;
 import ru.mail.pages.MainPage;
 
@@ -10,22 +9,19 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 /**
  * Класс степов
  */
-public class Steps extends WebDriverSetup {
+class Steps extends WebDriverSetup {
 
     private MainPage mainPage;
 
     private InboxPage inboxPage;
 
-
-    public Steps(WebDriver driver) {
-        this.driver = driver;
+    public Steps() {
     }
 
     @Step("Открываем mail.ru")
     public Steps openMailRu() {
-        driver.get(props.mailruUrl());
-        mainPage = new MainPage(driver);
-        makeScreenshot();
+        mainPage = new MainPage();
+        mainPage.makeScreenshot();
         return this;
     }
 
@@ -35,7 +31,7 @@ public class Steps extends WebDriverSetup {
                 .clickLoginButton()
                 .sendLogin(login)
                 .sendPassword(password);
-        makeScreenshot();
+        inboxPage.makeScreenshot();
         return this;
     }
 
@@ -47,6 +43,6 @@ public class Steps extends WebDriverSetup {
                 .fillText(text)
                 .sendLetter();
         assertEquals(email, recipientEmail, "Письмо не отправлено!");
-        makeScreenshot();
+        inboxPage.makeScreenshot();
     }
 }

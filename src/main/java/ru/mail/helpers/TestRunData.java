@@ -19,23 +19,22 @@ public class TestRunData {
         /**
          * Логин отправителя без @
          */
-        public final String login = "здесь ваш логин";
+        public static final String login = "здесь ваш логин";
 
         /**
          * Пароль отправителя
          */
-        public final String password = "здесь ваш пароль";
+        public static final String password = "здесь ваш пароль";
 
         /**
          * Email получателя (по умолчанию используется email отправителя)
          */
-        public final String email = login + "@mail.ru";
+        public static final String email = login + "@mail.ru";
 
         /**
          * Текст письма
          */
-        public final String text = "Test Letter " + System.currentTimeMillis();
-
+        public static final String text = "Test Letter " + System.currentTimeMillis();
 
         @Override
         public String toString() {

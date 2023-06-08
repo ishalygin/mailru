@@ -1,23 +1,21 @@
 package ru.mail;
 
 import io.github.bonigarcia.wdm.WebDriverManager;
-import io.qameta.allure.Attachment;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
-import org.openqa.selenium.OutputType;
-import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import ru.mail.helpers.Props;
+import ru.mail.pages.BasePage;
 
 import java.time.Duration;
 
 /**
  * Абстрактный класс настройки веб-драйвера
  */
-public abstract class WebDriverSetup {
+abstract class WebDriverSetup {
 
-    protected final static Props props = Props.props;
+    protected static final Props props = Props.props;
     protected WebDriver driver;
 
     @BeforeEach
@@ -26,16 +24,13 @@ public abstract class WebDriverSetup {
         driver = new ChromeDriver();
         driver.manage().window().maximize();
         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(30));
+        driver.get(props.mailruUrl());
+        BasePage.setDriver(driver);
     }
 
     @AfterEach
     protected void after() {
         driver.quit();
-    }
-
-    @Attachment(value = "Attachment Screenshot", type = "image/jpg")
-    public byte[] makeScreenshot() {
-        return ((TakesScreenshot) driver).getScreenshotAs(OutputType.BYTES);
     }
 
 }

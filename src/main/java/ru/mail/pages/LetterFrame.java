@@ -1,12 +1,6 @@
 package ru.mail.pages;
 
 import io.qameta.allure.Step;
-import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
-
-import java.time.Duration;
 
 /**
  * Класс PageObject фрейма(окна) нового письма
@@ -16,33 +10,27 @@ public class LetterFrame extends BasePage {
     /**
      * xPath поля "Кому"
      */
-    private final By recipientField = By.xpath("//div[text()='Кому']//following::input");
+    private static final String recipientFieldXPath = "//div[text()='Кому']//following::input";
 
     /**
      * xPath поля для ввода текста письма
      */
-    private final By textField = By.xpath("//div[contains(@class, 'editable-container')]/div");
+    private static final String textFieldXPath = "//div[contains(@class, 'editable-container')]/div";
 
     /**
      * xPath кнопки "Отправить"
      */
-    private final By sendLetterButton = By.xpath("//span[text()='Отправить']");
+    private static final String sendLetterButtonXPath = "//span[text()='Отправить']";
 
     /**
      * xPath текста об успешной отправке письма
      */
-    private final By successText = By.xpath("//a[text()='Письмо отправлено']");
+    private static final String successTextXPath = "//a[text()='Письмо отправлено']";
 
     /**
      * xPath текста имени и email получателя
      */
-    private final By recipientEmail = By.xpath("//span[contains(text(), 'Кому')]//following-sibling::span");
-
-
-    public LetterFrame(WebDriver driver) {
-        this.driver = driver;
-        this.wait = new WebDriverWait(driver, Duration.ofSeconds(60));
-    }
+    private static final String recipientEmailXPath = "//span[contains(text(), 'Кому')]//following-sibling::span";
 
     /**
      * Заполняет email получателя
@@ -51,8 +39,7 @@ public class LetterFrame extends BasePage {
      */
     @Step("Заполняем email получателя")
     public LetterFrame fillRecipient(String recipient) {
-        wait.until(ExpectedConditions.elementToBeClickable(recipientField));
-        driver.findElement(recipientField).sendKeys(recipient);
+        write(recipient, recipientFieldXPath);
         return this;
     }
 
@@ -63,8 +50,7 @@ public class LetterFrame extends BasePage {
      */
     @Step("Заполняем текст письма")
     public LetterFrame fillText(String text) {
-        wait.until(ExpectedConditions.elementToBeClickable(textField));
-        driver.findElement(textField).sendKeys(text);
+        write(text, textFieldXPath);
         return this;
     }
 
@@ -73,9 +59,9 @@ public class LetterFrame extends BasePage {
      */
     @Step("Отправляем письмо")
     public String sendLetter() {
-        driver.findElement(sendLetterButton).click();
-        wait.until(ExpectedConditions.elementToBeClickable(successText));
-        String email = driver.findElement(recipientEmail).getText();
+        click(sendLetterButtonXPath);
+        clickableWait(successTextXPath);
+        String email = getText(recipientEmailXPath);
         return email.substring(email.indexOf('<') + 1, email.indexOf('>'));
     }
 }
